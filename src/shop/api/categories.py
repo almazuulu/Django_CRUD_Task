@@ -65,7 +65,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['get'])
     def with_products(self, request):
         """Get all categories with their products"""
         categories = self.service.get_categories_with_products()

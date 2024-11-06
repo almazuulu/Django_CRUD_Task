@@ -66,7 +66,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = CustomerSerializer(fans, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['patch'])
     def update_stock(self, request, pk=None):
         """Update product stock"""
         quantity = request.data.get('quantity')
@@ -88,7 +87,6 @@ class ProductViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-    @action(detail=False, methods=['get'])
     def in_stock(self, request):
         """Get all products in stock"""
         products = self.service.get_active_products()

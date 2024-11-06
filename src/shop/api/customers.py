@@ -58,7 +58,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
             status=status.HTTP_204_NO_CONTENT
         )
 
-    @action(detail=True, methods=['post'])
     def toggle_favorite(self, request, pk=None):
         """Toggle product in favorites"""
         product_id = request.data.get('product_id')

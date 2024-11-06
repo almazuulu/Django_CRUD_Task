@@ -58,7 +58,6 @@ class ManufacturerViewSet(viewsets.ModelViewSet):
             status=status.HTTP_204_NO_CONTENT
         )
 
-    @action(detail=False, methods=['get'])
     def by_country(self, request):
         """Get manufacturers by country"""
         country = request.query_params.get('country')
@@ -78,7 +77,6 @@ class ManufacturerViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(manufacturers, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['patch'])
     def update_contacts(self, request, pk=None):
         """Update manufacturer contact information"""
         email = request.data.get('email')
