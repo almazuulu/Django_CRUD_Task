@@ -58,13 +58,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+ 
 ROOT_URLCONF = 'crud_website.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -162,23 +162,23 @@ SWAGGER_SETTINGS = {
 }
 
 # Setting app channels
-ASGI_APPLICATION = 'project.asgi.application'
+ASGI_APPLICATION = 'crud_website.asgi.application'
 
-# Setting up Channel Layer using Redis
+# Setting up Channel for the development
 CHANNEL_LAYERS = {
-'default': {
-    'BACKEND': 'channels_redis.core.RedisChannelLayer',
-    'CONFIG': {
-        "hosts": [('127.0.0.1', 6379)],
-        },
-    },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
-# TODO: For the production use InMemoryChannelLayer instead Redis
+# TODO: for the production use Redis
 # CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels.layers.InMemoryChannelLayer"
-#     }
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
 # }
 
 # Setting up CORS
