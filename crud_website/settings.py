@@ -10,22 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
-
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables from .env file
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-am!un)rl+2lzhz8ufff^$%#yp8h(@zhv%)p_m-t!9g(e^a%wpq'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -88,7 +90,7 @@ WSGI_APPLICATION = 'crud_website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -127,10 +129,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = os.getenv('STATIC_URL', '/static/')
+STATIC_ROOT = BASE_DIR / os.getenv('STATIC_ROOT', 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / os.getenv('STATIC_DIR', 'static'),
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -143,6 +145,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+WEBSOCKET_HOST = os.getenv('WEBSOCKET_HOST', '0.0.0.0')
+WEBSOCKET_PORT = int(os.getenv('WEBSOCKET_PORT', 8000))
 
 # Rest framework settings
 REST_FRAMEWORK = {
