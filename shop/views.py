@@ -46,8 +46,17 @@ class CustomerViewSet(viewsets.ModelViewSet):
         product_id = request.data.get('product_id')
         if not product_id:
             return Response({'error': 'Product ID is required'}, status=400)
+        
         try:
             product = Product.objects.get(id=product_id)
-            
+            if product in customer.favorite_products.all():
+                customer.favorite_products.remove(product)
+                action = 'removed from'
+            else:
+                customer.favorite_products.add(product)
+                action = 'added to'
+            return Response({
+                'message': f'Product {action} favorites successfully'
+            })
         except Product.DoesNotExist:
             return Response({'error': 'Product not found'}, status=404)
