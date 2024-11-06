@@ -1,0 +1,76 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+
+# Virtual environment
+venv
+env
+ENV
+.venv
+.ENV
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Project specific
+src/db.sqlite3
+src/media/*
+!src/media/.gitkeep
+src/staticfiles/*
+!src/staticfiles/.gitkeep
+
+# Docker
+docker-compose*.yml
+Dockerfile*
+.docker
+
+# Documentation
+docs/
+*.md
+LICENSE
+
+# Development tools
+*.bak
+*.tmp
+*.temp
+
+# Test
+tests/
+test/
+testing/
+htmlcov/
+.pytest_cache/
+
+# Local development settings
+local_settings.py
+
+# System files
+.DS_Store
+Thumbs.db
