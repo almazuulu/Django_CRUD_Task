@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from ..models import Customer
+from ..utils import ReadOnlyOrAuthenticated
 from ..serializers import CustomerSerializer
 from ..services.customer import CustomerService
 
@@ -9,6 +10,7 @@ from ..services.customer import CustomerService
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     service = CustomerService()
+    permission_classes = [ReadOnlyOrAuthenticated]
 
     def get_queryset(self):
         return self.service.get_all()

@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from ..models import Product
+from ..utils import ReadOnlyOrAuthenticated
 from ..serializers import ProductSerializer, CustomerSerializer
 from ..services.product import ProductService
 
@@ -9,7 +10,8 @@ from ..services.product import ProductService
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     service = ProductService()
-
+    permission_classes = [ReadOnlyOrAuthenticated]
+    
     def get_queryset(self):
         return self.service.get_all()
 
