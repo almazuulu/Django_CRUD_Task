@@ -4,6 +4,7 @@ from django.db.models.query import QuerySet
 
 T = TypeVar('T', bound=models.Model)
 
+
 class BaseRepository(Generic[T]):
     def __init__(self, model_class: Type[T]):
         self.model_class = model_class

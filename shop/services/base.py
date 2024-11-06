@@ -4,6 +4,7 @@ from ..repositories.base import BaseRepository
 
 T = TypeVar('T', bound=models.Model)
 
+
 class BaseService(Generic[T]):
     def __init__(self, repository: BaseRepository[T]):
         self.repository = repository
