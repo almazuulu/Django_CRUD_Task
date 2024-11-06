@@ -5,7 +5,11 @@ from .category import Category
 from .manufacturer import Manufacturer
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(
+        max_length=200,
+        unique=True,
+        help_text="Product name must be unique"
+    )
     description = models.TextField()
     price = models.DecimalField(
         max_digits=10, 

@@ -1,7 +1,11 @@
 from django.db import models
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        help_text="Category name must be unique"
+    )
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

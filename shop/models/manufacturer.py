@@ -2,7 +2,11 @@ from django.db import models
 from django.core.validators import URLValidator
 
 class Manufacturer(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        help_text="Manufacturer name must be unique"
+    )
     country = models.CharField(max_length=100)
     website = models.URLField(
         blank=True,
