@@ -1,0 +1,1 @@
+# TODO: setup routing for shop consumer
