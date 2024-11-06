@@ -7,6 +7,9 @@ from .serializers import (
     ProductSerializer, CustomerSerializer
 )
 
+class WebSocketTestView(TemplateView):
+    template_name = 'shop/websocket_test.html'
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
