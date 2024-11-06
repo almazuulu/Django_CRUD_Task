@@ -1,21 +1,157 @@
-<!-- templates/shop/websocket_test.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebSocket Test</title>
+    <title>Shop WebSocket Test</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .notifications {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notification {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        .subscription-group {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-    <h1>WebSocket Test Page</h1>
-    <div class="status" id="connectionStatus">
-        Status: Connecting...
-    </div>
+    <div class="container">
+        <h1>Shop WebSocket Test</h1>
+        
+        <div id="connectionStatus" class="notification">
+            Status: Disconnected
+        </div>
 
-    <div class="notifications" id="notifications">
-        <!-- Notifications do later here -->
+        <div class="controls">
+            <h3>Subscribe to Updates</h3>
+            
+            <div class="subscription-group">
+                <label>Product ID:</label>
+                <input type="number" id="productId" />
+                <button onclick="subscribeToProduct()">Subscribe to Product</button>
+            </div>
+
+            <div class="subscription-group">
+                <label>Category ID:</label>
+                <input type="number" id="categoryId" />
+                <button onclick="subscribeToCategory()">Subscribe to Category</button>
+            </div>
+
+            <div class="subscription-group">
+                <label>Customer ID:</label>
+                <input type="number" id="customerId" />
+                <button onclick="subscribeToCustomer()">Subscribe to Customer</button>
+            </div>
+
+            <div class="subscription-group">
+                <label>Manufacturer ID:</label>
+                <input type="number" id="manufacturerId" />
+                <button onclick="subscribeToManufacturer()">Subscribe to Manufacturer</button>
+            </div>
+        </div>
+
+        <div class="notifications" id="notifications"></div>
     </div>
 
     <script>
-        // TODO: Make script later
+        let socket = null;
+
+        function connectWebSocket() {
+            const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+            socket = new WebSocket(
+                `${ws_scheme}://${window.location.host}/ws/shop/`
+            );
+
+            socket.onopen = function(e) {
+                document.getElementById('connectionStatus').textContent = 'Status: Connected';
+                addNotification('WebSocket connection established');
+            };
+
+            socket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                addNotification(JSON.stringify(data, null, 2));
+            };
+
+            socket.onclose = function(e) {
+                document.getElementById('connectionStatus').textContent = 'Status: Disconnected';
+                addNotification('WebSocket connection closed', true);
+                setTimeout(connectWebSocket, 5000);
+            };
+
+            socket.onerror = function(e) {
+                document.getElementById('connectionStatus').textContent = 'Status: Error occurred';
+                addNotification('WebSocket error occurred', true);
+            };
+        }
+
+        function addNotification(message, isError = false) {
+            const notifications = document.getElementById('notifications');
+            const notification = document.createElement('div');
+            notification.className = `notification ${isError ? 'error' : ''}`;
+            notification.textContent = typeof message === 'string' ? message : JSON.stringify(message, null, 2);
+            notifications.insertBefore(notification, notifications.firstChild);
+        }
+
+        function subscribeToProduct() {
+            const productId = document.getElementById('productId').value;
+            if (socket && productId) {
+                socket.send(JSON.stringify({
+                    type: 'subscribe_to_product',
+                    product_id: productId
+                }));
+            }
+        }
+
+        function subscribeToCategory() {
+            const categoryId = document.getElementById('categoryId').value;
+            if (socket && categoryId) {
+                socket.send(JSON.stringify({
+                    type: 'subscribe_to_category',
+                    category_id: categoryId
+                }));
+            }
+        }
+
+        function subscribeToCustomer() {
+            const customerId = document.getElementById('customerId').value;
+            if (socket && customerId) {
+                socket.send(JSON.stringify({
+                    type: 'subscribe_to_customer',
+                    customer_id: customerId
+                }));
+            }
+        }
+
+        function subscribeToManufacturer() {
+            const manufacturerId = document.getElementById('manufacturerId').value;
+            if (socket && manufacturerId) {
+                socket.send(JSON.stringify({
+                    type: 'subscribe_to_manufacturer',
+                    manufacturer_id: manufacturerId
+                }));
+            }
+        }
+
+        // initiating the connection
+        connectWebSocket();
     </script>
 </body>
 </html>

@@ -90,7 +90,7 @@ urlpatterns = [
     ])),
     
     # WebSocket endpoints
-    path('ws/test/', WebSocketTestView.as_view(), name='websocket-test'),
+    path('ws-test/', WebSocketTestView.as_view(), name='websocket-test'),
     
     # API Documentation
     path('api/docs/', TemplateView.as_view(
