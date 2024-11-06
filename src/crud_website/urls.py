@@ -24,8 +24,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Redirect to Swagger UI
-    path('', lambda request: HttpResponseRedirect(reverse('schema-swagger-ui'))),
+    path('', lambda request: HttpResponseRedirect('/api/v1/')),
     
     # API Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), 
@@ -34,7 +33,7 @@ urlpatterns = [
          name='schema-redoc'),
   
     # Include API URLs from the 'shop' app
-    path('api/', include('shop.urls')),
+    path('', include('shop.urls')),
     
     # REST Framework browsable API authentication
     path('api-auth/', include('rest_framework.urls', 
