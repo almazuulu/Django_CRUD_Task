@@ -1,11 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.views.generic import TemplateView
+
 from .models import Category, Manufacturer, Product, Customer
 from .serializers import (
     CategorySerializer, ManufacturerSerializer,
     ProductSerializer, CustomerSerializer
 )
+
 
 class WebSocketTestView(TemplateView):
     template_name = 'shop/websocket_test.html'

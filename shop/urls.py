@@ -7,8 +7,8 @@ from .views import (
     ProductViewSet,
     CustomerViewSet,
     
-    # Views - TODO: Implement it later
-    # WebSocketTestView,
+    # Views
+    WebSocketTestView,
 )
 
 app_name = 'shop'
@@ -26,6 +26,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     
     # WebSocket test page
-    # TODO: Implement later
-    # path('ws-test/', WebSocketTestView.as_view(), name='ws-test'),
+    path('ws-test/', WebSocketTestView.as_view(), name='ws-test'),
 ]
